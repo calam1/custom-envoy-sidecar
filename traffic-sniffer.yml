@@ -1,0 +1,29 @@
+# https://venilnoronha.io/hand-crafting-a-sidecar-proxy-and-demystifying-istio
+apiVersion: v1
+kind: Pod
+metadata:
+  name: httpbin-pod
+  namespace: productcore-dev
+  labels:
+    app: httpbin
+spec:
+  initContainers:
+  - name: init-networking
+    image: init-networking
+    imagePullPolicy: IfNotPresent
+    securityContext:
+      capabilities:
+        add:
+        - NET_ADMIN
+      privileged: true
+  containers:
+  - name: service
+    image: docker.io/kennethreitz/httpbin
+    imagePullPolicy: IfNotPresent
+    ports:
+    - containerPort: 80
+  - name: proxy
+    image: traffic-sniffer
+    imagePullPolicy: IfNotPresent
+    ports:
+    - containerPort: 8000
