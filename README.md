@@ -73,6 +73,6 @@ spec:
 after applying I found the pod IP, obviously you namespace will be whatever yours is
 
 ```
- ❯❯❯ kubectl exec "$(kubectl get pod -l app=sleep -n default -o jsonpath={.items..metadata.name})" -c sleep -n default -- curl -ikv -X POST -d 'body=parameters'  172.17.0.16:80/post
+kubectl exec "$(kubectl get pod -l app=sleep -n default -o jsonpath={.items..metadata.name})" -c sleep -n default -- curl -ikv -X POST -d 'body=parameters'  172.17.0.16:80/post
 
 ```
